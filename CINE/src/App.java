@@ -4,6 +4,8 @@ public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Bienvenido al Cine");
 
+        //Cliente uno
+
         Scanner sca = new Scanner(System.in);
         System.out.println("Ingrese su cédula");
         String cedula = sca.nextLine();
@@ -15,16 +17,22 @@ public class App {
         clienteUno.setCedula(cedula);
         clienteUno.setNombre(nombre);
         clienteUno.setId(1);
+        clienteUno.generarSaludo();
+        clienteUno.generarSaludo("Buenos días");
+        clienteUno.mostrarDatos();
         float costo = clienteUno.calcularCosto(8000);
 
         System.out.println("Cédula: " + clienteUno.getCedula() + "\nNombre: " 
                            + clienteUno.getNombre() + "\nID: " + clienteUno.getId()
                            + "\nCosto Tiquete: " + costo );
 
+        //Cliente dos
+
         ClientePremium clienteDos = new ClientePremium();
         clienteDos.setCedula("11657777");
         clienteDos.setNombre("José");
         clienteDos.setNumeroTarjeta(100);
+        clienteDos.mostrarDatos();
         float costoDos = clienteDos.calcularCosto(8000);
 
         System.out.println();

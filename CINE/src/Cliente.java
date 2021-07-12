@@ -16,4 +16,9 @@ public class Cliente extends Persona implements Tiquete{
         return this.id;
     }
 
+    @Override
+    public void mostrarDatos(){
+        System.out.println("Cédula = " + this.cedula + " Nombre = " + this.nombre + " ID = " + this.id);
+    }
+
 }
