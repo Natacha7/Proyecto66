@@ -41,7 +41,10 @@ public class App {
                            + clienteDos.getNombre() + "\nNúmero Tarjeta: " + clienteDos.getNumeroTarjeta()
                            + "\nCosto Tiquete: " + costoDos);
 
-
+        //prueba de contenedores
+        System.out.println();
+        Prueba pruebaContenedor = new Prueba();
+        pruebaContenedor.generarLista();
 
 
     }
