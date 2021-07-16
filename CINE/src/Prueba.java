@@ -3,7 +3,39 @@ import java.util.Scanner;
 
 public class Prueba {
 
+    private ArrayList<Cliente> listaClientes;
+
+    public Prueba(){
+        listaClientes = new ArrayList<>();
+    }
+
+    public void agregarCliente(Cliente pCliente){
+
+        listaClientes.add(pCliente);
+    }
+
+    public void mostrarNombreClientes() {
+        
+        System.out.println("Nombre de clientes");
+        for (int i = 0; i < listaClientes.size(); i++) {
+            System.out.println(listaClientes.get(i).getNombre());
+        }
+    }
+
+    public void mostrarDatosClientes() {
+        String cadenaClientes = "";
+        System.out.println("Datos de clientes");
+        for (int i = 0; i < listaClientes.size(); i++) {
+            String datos = "\nCédula: " + listaClientes.get(i).getCedula()
+                            + "\nNombre: " + listaClientes.get(i).getNombre()
+                            + "\nID: " + listaClientes.get(i).getId();
+            cadenaClientes = cadenaClientes.concat(datos);
+    }
+    System.out.println(cadenaClientes);
+}
+
     public void generarLista () {
+        //System.out.println("Ingresó al método prueba");
         ArrayList<Integer> listaNumeros = new ArrayList<>();
 
         Scanner sca = new Scanner(System.in);
@@ -21,6 +53,14 @@ public class Prueba {
        for (int i = 0; i < listaNumeros.size(); i++){
            System.out.println(listaNumeros.get(i));
        }
-    }
+       System.out.println();
+       // Ciclo de for each
+       listaNumeros.forEach((elemento) -> {
+           System.out.println(elemento);
+           //elemento = elemento * 2;
 
+       });
+    }
 }
+
+
