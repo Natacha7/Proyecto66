@@ -44,7 +44,7 @@ public class App {
         //prueba de contenedores
         System.out.println();
         Prueba pruebaContenedor = new Prueba();
-        //pruebaContenedor.generarLista();
+        pruebaContenedor.generarLista();
 
         //Lista de objetos
         System.out.println();
@@ -61,10 +61,11 @@ public class App {
             int id = sca.nextInt();
 
             //Crea objeto cliente
-            Cliente nuevoCliente = new Cliente();
+            /*Cliente nuevoCliente = new Cliente();
             nuevoCliente.setCedula(cedula);
             nuevoCliente.setNombre(nombre);
-            nuevoCliente.setId(id);
+            nuevoCliente.setId(id);*/
+            Cliente nuevoCliente = new Cliente(cedula, nombre, id);
 
             //Agregar cliente a la lista
             pruebaContenedor.agregarCliente(nuevoCliente);

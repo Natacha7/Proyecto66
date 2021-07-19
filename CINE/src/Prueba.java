@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Prueba {
@@ -36,6 +37,7 @@ public class Prueba {
 
     public void generarLista () {
         //System.out.println("Ingresó al método prueba");
+        try {
         ArrayList<Integer> listaNumeros = new ArrayList<>();
 
         Scanner sca = new Scanner(System.in);
@@ -51,7 +53,7 @@ public class Prueba {
        System.out.println();
        // Ciclo for
        for (int i = 0; i < listaNumeros.size(); i++){
-           System.out.println(listaNumeros.get(i));
+           System.out.println(listaNumeros.get(i+1));
        }
        System.out.println();
        // Ciclo de for each
@@ -60,6 +62,17 @@ public class Prueba {
            //elemento = elemento * 2;
 
        });
+        } catch(InputMismatchException e) {
+            System.out.println("Solo se permiten números");
+            
+        } catch(Exception e2) {
+            System.out.println("Se presenta un error en la lista");
+        }
+        finally {
+            System.out.println("Finalizó método");
+        }
+        
+        
     }
 }
 
