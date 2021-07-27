@@ -1,0 +1,75 @@
+/*
+    EJEMPLOS DE SENTENCIAS SQL
+*/
+
+/*Creación de tablas*/
+CREATE TABLE Clientes(
+    identificacion varchar(15) PRIMARY KEY,
+    nombres varchar(20),
+    apellidos varchar(20)
+);
+
+CREATE TABLE Marcas (
+	codigoMarca INTEGER,
+	nombre TEXT(10),
+	CONSTRAINT Marcas_PK PRIMARY KEY (codigoMarca)
+);
+
+/*INsertar registros*/
+INSERT INTO Clientes VALUES("11245145", "Juan Pedro", "Perez Lopez");
+INSERT INTO Clientes VALUES("1110655", "Maria", "Perez");
+
+/*Mostrar todos los registros*/
+SELECT nombres FROM Clientes;
+SELECT nombres, apellidos FROM Clientes;
+
+SELECT * FROM Clientes;
+
+/*Modificar Tablas*/
+ALTER TABLE Clientes ADD edad int;
+ALTER TABLE Clientes DROP COLUMN edad;
+
+/*Crear tabla con llave foranea*/
+CREATE TABLE Productos (
+	codigoBarras INTEGER,
+	nombre TEXTO(10),
+	precio REAL,
+	talla TEXT(4),
+	color TEXT(10),
+	idMarca INTEGER,
+	CONSTRAINT Productos_PK PRIMARY KEY (codigoBarras),
+	CONSTRAINT MarcaProducto_FK FOREIGN KEY (idMarca) REFERENCES Marcas(codigoMarca)
+);
+
+/*Borrar tabla*/
+DROP TABLE Productos;
+TRUNCATE TABLE Productos;
+
+/*Agregar la llave foranea*/
+ALTER TABLE Productos ADD FOREIGN KEY (idMarca) REFERENCES Marcas(codigoMarca);
+
+insert into Clientes (identificacion, nombres, apellidos) values ('1649129', 'Cissy', 'Ding');
+insert into Clientes (identificacion, nombres, apellidos) values ('1441413', 'Sharona', 'Jacobsson');
+insert into Clientes (identificacion, nombres, apellidos) values ('0824503', 'Elston', 'Rosenthal');
+insert into Clientes (identificacion, nombres, apellidos) values ('6761578', 'Kizzie', 'Marquot');
+insert into Clientes (identificacion, nombres, apellidos) values ('5456476', 'Deonne', 'MacCaughan');
+insert into Clientes (identificacion, nombres, apellidos) values ('0936013', 'Bradly', 'Townrow');
+insert into Clientes (identificacion, nombres, apellidos) values ('5506334', 'Lemmy', 'Pimmocke');
+insert into Clientes (identificacion, nombres, apellidos) values ('6118567', 'Dennet', 'Jirus');
+insert into Clientes (identificacion, nombres, apellidos) values ('4859976', 'Elvin', 'Keaveney');
+insert into Clientes (identificacion, nombres, apellidos) values ('7317164', 'Suzy', 'Ritchie');
+
+/*Para cambiar la presentación de un nombre de la tabla por ejemplo de nombre*/
+SELECT identificacion, nombres AS "nombre de la persona" FROM Clientes;
+
+/*Unir campos, columnas, concatenación ||*/
+SELECT identificacion, nombres || " " || apellidos AS "Nombre completo" FROM Clientes;
+
+/*Select sin repetidos*/
+SELECT DISTINCT nombres FROM Clientes;
+
+/*Select con where*/
+SELECT * FROM Clientes WHERE identificacion = "1441413";
+SELECT * FROM Clientes WHERE nombres = "Maria";
+
+
