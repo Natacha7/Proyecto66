@@ -72,4 +72,31 @@ SELECT DISTINCT nombres FROM Clientes;
 SELECT * FROM Clientes WHERE identificacion = "1441413";
 SELECT * FROM Clientes WHERE nombres = "Maria";
 
+SELECT codigoBarras, nombre, precio, talla, color, idMarca
+FROM Productos
+WHERE nombre = "Falda";
+
+/*SELECT con LIKE*/
+SELECT * FROM Clientes WHERE nomBres LIKE "%Maria%"
+
+/*Creación de tabla ventas*/
+CREATE TABLE Ventas (
+	codigoVenta TEXT(5),
+	total REAL,
+	idCliente TEXT(15),
+	CONSTRAINT Ventas_PK PRIMARY KEY (codigoVenta),
+	CONSTRAINT Ventas_FK FOREIGN KEY (idCliente) REFERENCES Clientes(identificacion)
+);
+
+CREATE TABLE ventasProductos (
+	idVentasProductos INTEGER,
+	cantidad INTEGER,
+	idProducto INTEGER,
+	idVenta TEXT(5),
+	CONSTRAINT ventasProductos_PK PRIMARY KEY (idVentasProductos),
+	CONSTRAINT ventasProductos_FK FOREIGN KEY (idVenta) REFERENCES Ventas(codigoVenta),
+	CONSTRAINT ventasProductos_FK_1 FOREIGN KEY (idProducto) REFERENCES Productos(codigoBarras)
+);
+
+
 
