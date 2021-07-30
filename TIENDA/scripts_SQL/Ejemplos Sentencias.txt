@@ -71,13 +71,31 @@ SELECT DISTINCT nombres FROM Clientes;
 /*Select con where*/
 SELECT * FROM Clientes WHERE identificacion = "1441413";
 SELECT * FROM Clientes WHERE nombres = "Maria";
+SELECT * FROM Clientes WHERE nombres = "Maria" AND identificacion = "1441413";
 
 SELECT codigoBarras, nombre, precio, talla, color, idMarca
 FROM Productos
 WHERE nombre = "Falda";
 
 /*SELECT con LIKE*/
-SELECT * FROM Clientes WHERE nomBres LIKE "%Maria%"
+SELECT * FROM Clientes WHERE nombres LIKE "%Maria%";
+SELECT * FROM Clientes WHERE nombres NOT LIKE "%Maria%";
+
+/*Conteo de los campos en los que los nombres sea Maria*/
+SELECT COUNT(*) AS "Numero de marias" FROM Clientes WHERE nombres LIKE ("%Maria%");
+
+SELECT COUNT(*) AS "Número de clientes" FROM Clientes;
+
+/*Busca sin tener en cuenta las mayúsculas*/
+SELECT * FROM Clientes WHERE LOWER(nombres) = LOWER("Maria");
+
+
+/*SELECT ORDER BY*/
+SELECT * FROM Clientes ORDER BY apellidos
+/*Ordenar primero por apellidos y después por nombres*/
+SELECT * FROM Clientes ORDER BY apellidos, nombres
+/*ordenar en orden descendiente*/
+SELECT * FROM Clientes ORDER BY apellidos DESC
 
 /*Creación de tabla ventas*/
 CREATE TABLE Ventas (
