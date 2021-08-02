@@ -116,5 +116,142 @@ CREATE TABLE ventasProductos (
 	CONSTRAINT ventasProductos_FK_1 FOREIGN KEY (idProducto) REFERENCES Productos(codigoBarras)
 );
 
+/*Traer el máximo de precio y diga el nombre del producto de ese máximo*/
+SELECT MAX(precio), nombre FROM Productos;
 
+/*Producto más barato de laa tienda*/
+SELECT MIN(precio), nombre FROM Productos;
+
+/*Precio promedio*/
+SELECT AVG(precio) AS "precio promedio" FROM Productos;
+
+/*Sumar las ventas*/
+SELECT SUM(total) FROM Ventas;
+
+/*Sumar las ventas de un cliente en especifico*/
+SELECT SUM(total) FROM Ventas WHERE idCliente = "49898654";
+
+/*Cuenta las ventas que ha hecho un cliente en especifico*/
+SELECT COUNT(*) FROM Ventas WHERE idCliente = "49898654";
+SELECT COUNT(*) AS "Cantidad de ventas", SUM(total) AS "Dinero gastado" FROM Ventas WHERE idCliente = "49898654";
+
+/*Para tener acceso total a la tabla clientes, FROM Ventas v JOIN Clientes c ON v.idCliente = c.identificacion*/
+SELECT idCliente, c.nombres, COUNT(*) AS "Cantidad de ventas", SUM(total) AS "Dinero gastado" 
+FROM Ventas v JOIN Clientes c ON v.idCliente = c.identificacion 
+WHERE idCliente = "49898654";
+
+SELECT idCliente, c.nombres || " " || c.apellidos AS "Nombre Cliente", COUNT(*) AS "Cantidad de ventas", SUM(total) AS "Dinero gastado" 
+FROM Ventas v JOIN Clientes c ON v.idCliente = c.identificacion 
+WHERE idCliente = "49898654";
+
+/*Agrupar los productos por nombre*/
+SELECT * FROM Productos GROUP BY nombre 
+
+/*Contar el nombre de los productos*/
+SELECT nombre, COUNT(nombre) FROM Productos GROUP BY nombre
+
+/*Cuenta todos los productos*/
+SELECT COUNT(*) FROM Productos
+
+/*Agrupar los productos por tallas*/
+SELECT talla, COUNT(talla) AS "Cantidad de Productos" FROM Productos GROUP BY talla
+
+/*Contar productos por color*/
+SELECT color, COUNT(color) AS "Cantidad de Productos" FROM Productos GROUP BY color
+
+/*Promedio del precio de cada producto*/
+SELECT nombre, AVG(precio) FROM Productos GROUP BY nombre
+
+/*Agrupa los productos menores a 60000*/
+SELECT nombre, AVG(precio) FROM Productos GROUP BY nombre HAVING AVG(precio) < 60000
+
+/*Productos más costosos de la camiseta de color blanco*/
+/*La camiseta blanca vale 38000*/
+SELECT precio FROM Productos WHERE nombre = "Camiseta" AND color = 'Blanco' 
+
+SELECT nombre, precio 
+FROM Productos 
+WHERE precio > (
+                SELECT precio FROM Productos 
+                WHERE nombre = "Camiseta" AND color = 'Blanco'
+);
+
+/*Subconsulta*/
+SELECT nombre, AVG(precio) AS "Precio promedio"
+FROM Productos 
+WHERE precio > (
+                SELECT precio FROM Productos 
+                WHERE nombre = "Camiseta" AND color = 'Blanco'
+)
+GROUP BY nombre;
+
+/*Saber qué productos tienen un precio promedio por encima del precio promedio de todos los productos*/
+/*primero se averigua el precio promedio de todos los productos después el precio promedio por categorías*/
+/*Después el precio promedio de las categorías por encima del precio promedio de todos los productos*/
+SELECT AVG(precio) FROM Productos
+
+SELECT nombre, AVG(precio) AS "Precio promedio" FROM Productos GROUP BY nombre 
+
+SELECT nombre, AVG(precio) AS "Precio promedio"
+FROM Productos 
+GROUP BY nombre
+HAVING "Precio promedio" > (
+							SELECT AVG(precio) FROM Productos
+);
+
+/*Se va actualizar la falda con código 4535 el precio de $30.000 a $35.000*/
+UPDATE Productos 
+SET precio = 35000
+WHERE codigoBarras = 4535;
+
+/*Para eliminar una fila*/
+DELETE FROM Clientes 
+WHERE identificacion = "101010";
+
+/*Saber todos los productos por su nombre y precio que  a lo largo del tiempo a comprado una persona en especifico*/
+/*Se va a realizar una consulta de JOIN, se utiliza el diagrama*/
+SELECT * FROM Clientes c WHERE c.nombres = 'Abel' AND c.apellidos = 'Wolfe'
+
+/*Trae un solo registro con la información unida de la tabla Clientes con la tabla Ventas*/
+SELECT * 
+FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente 
+WHERE c.nombres = 'Abel' AND c.apellidos = 'Wolfe'
+
+/*Conecto ahora la tabla de Ventas con Ventas Productos, trae más resultados*/
+SELECT * 
+FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente 
+JOIN ventasProductos vp ON v.codigoVenta = vp.idVenta 
+WHERE c.nombres = 'Abel' AND c.apellidos = 'Wolfe'
+
+/*Comunicar de la tabla Ventas productos a Productos, ya se tiene acceso a todos los datos de las 4 tablas*/
+SELECT * 
+FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente 
+JOIN ventasProductos vp ON v.codigoVenta = vp.idVenta 
+JOIN Productos p ON vp.idProducto = p.codigoBarras 
+WHERE c.nombres = 'Abel' AND c.apellidos = 'Wolfe'
+
+/*Cuando ya esta toda la unión*/
+SELECT c.nombres || " " || c.apellidos AS "Cliente", p.nombre, p.precio 
+FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente 
+JOIN ventasProductos vp ON v.codigoVenta = vp.idVenta 
+JOIN Productos p ON vp.idProducto = p.codigoBarras 
+WHERE c.nombres = 'Abel' AND c.apellidos = 'Wolfe'
+
+/*Para saber cuál es el producto más barato que ha comprado*/
+SELECT c.nombres || " " || c.apellidos AS "Cliente", p.nombre, p.precio, MIN(p.precio) AS "Menor Precio"
+FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente 
+JOIN ventasProductos vp ON v.codigoVenta = vp.idVenta 
+JOIN Productos p ON vp.idProducto = p.codigoBarras 
+WHERE c.nombres = 'Abel' AND c.apellidos = 'Wolfe';
+
+/*LEFT JOIN trae todos los clientes que estan registrados en la base de datos que han participado en una venta
+Codigo de ventas null son clientes que nunca han tenido una venta se han registrado pero no han comprado nada*/
+SELECT c.nombres || " " || c.apellidos AS "nombre cliente", c.identificacion, v.codigoVenta 
+FROM Clientes c LEFT JOIN Ventas v ON v.idCliente = c.identificacion;
+
+/*Diferenciar las que han comprado con las que no han comprado*/
+/*Trae todos los clientes que no han comprado*/
+SELECT c.nombres || " " || c.apellidos AS "nombre cliente", c.identificacion, v.codigoVenta 
+FROM Clientes c LEFT JOIN Ventas v ON v.idCliente = c.identificacion
+WHERE v.codigoVenta IS NULL;
 
