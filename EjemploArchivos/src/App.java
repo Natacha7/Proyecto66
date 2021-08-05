@@ -6,9 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
 //import java.io.PrintWriter;
 //import java.util.Scanner;
 //import java.util.StringTokenizer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 
 public class App {
@@ -95,6 +99,11 @@ public class App {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         };
+
+        //NIO 2
+        var miTexto = "Esto es una cadena de prueba";
+        Files.write(Paths.get("writeText.txt"), miTexto.getBytes(StandardCharsets.UTF_8),
+        StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
     }
 }
